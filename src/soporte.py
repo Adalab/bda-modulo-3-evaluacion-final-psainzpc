@@ -1,6 +1,13 @@
 import pandas as pd
 import numpy as np
-from datetime import datetime
+from scipy.stats import shapiro, levene
+from scipy.stats import ttest_ind
+from scipy.stats import mannwhitneyu
+from scipy.stats import chi2_contingency
+#import scipy.stats as stats
+import scipy.stats as stats
+from scipy.stats import shapiro, poisson, chisquare, expon, kstest
+
 from IPython.display import display
 
 def exploracion(df):
@@ -93,3 +100,18 @@ def convertir_int(df, columna):
     
     except:
         return np.nan
+
+def normalidad(dataframe, columna):
+    """
+    Evalúa la normalidad de una columna de datos de un DataFrame utilizando la prueba de Shapiro-Wilk.
+    Parámetros:
+        dataframe (DataFrame): El DataFrame que contiene los datos.
+        columna (str): El nombre de la columna en el DataFrame que se va a evaluar para la normalidad.
+    Returns:
+        None: Imprime un mensaje indicando si los datos siguen o no una distribución normal.
+    """
+    statistic, p_value = stats.shapiro(dataframe[columna])
+    if p_value > 0.05:
+        print(f"Para la columna {columna} los datos siguen una distribución normal.")
+    else:
+        print(f"Para la columna {columna} los datos no siguen una distribución normal.")
